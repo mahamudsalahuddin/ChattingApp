@@ -1,0 +1,52 @@
+* {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-decoration: none;
+}
+.regHeading {
+  font-family: "Nunito", sans-serif;
+  font-size: 34.4px;
+  font-weight: 700;
+}
+.regSubheading {
+  font-family: "Nunito", sans-serif;
+  font-size: 20.64px;
+  font-weight: 600;
+}
+.registrationImg {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+}
+.regLeftside {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.inputBoxContainer {
+  width: 368.09px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.regInputEmail,
+.regInputfullName,
+.regInputPassword {
+  width: 100%;
+  margin-top: 56px !important;
+}
+
+.regLink {
+  margin-top: 35px !important;
+  font-family: "Nunito", sans-serif;
+  font-size: 13.34px;
+  font-weight: 600;
+  color: #03014c;
+  width: 100%;
+  text-align: center;
+}
+.regLink a {
+  color: #ea6c00;
+  margin-left: 5px;
+}
