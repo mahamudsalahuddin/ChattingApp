@@ -23,6 +23,8 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  margin-top: 100px;
+  margin-right: 50px;
 }
 .inputBoxContainer {
   width: 368.09px;
@@ -49,4 +51,16 @@
 .regLink a {
   color: #ea6c00;
   margin-left: 5px;
+}
+
+.loginWithGoogle{
+  margin-top: 32px;
+}
+
+.logLeftside{
+  display: flex;
+  /* flex-direction: column; */
+  justify-content: center;
+  align-items: center;
+  margin-top: 150px;
 }

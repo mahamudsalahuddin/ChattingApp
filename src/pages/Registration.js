@@ -25,38 +25,30 @@ const CommonButton = styled(Button)({
 const Registration = () => {
   return (
     <>
-
         <Grid container spacing={2}>
           <Grid item xs={6}>
-          <div className='regLeftside'>
-                <div>
-                <Header>
-                    <Heading className="regHeading" title="Get started with easily register" as="h2"/>
-                    <p className='regSubheading'>Free register and you can enjoy it</p>
-                </Header>
-                <div className='inputBoxContainer'>
-                <InputBox className="regInputEmail" label="Email Address
-" variant="outlined"/>
-                <InputBox className="regInputfullName" label="Full name" variant="outlined"/>
-                <InputBox className="regInputPassword" label="Password" variant="outlined"/>
-                <PButton bName={CommonButton} title='Sign up'/>
-                <AuthenticationLink className="regLink" title="Already  have an account ?" href="/login/" hrefTitle="Sign In"/>
-                </div>
-                </div>
-
-                
-          </div>
+            <div className='regLeftside'>
+                  <div>
+                      <Header>
+                            <Heading className="regHeading" title="Get started with easily register" as="h2"/>
+                            <p className='regSubheading'>Free register and you can enjoy it</p>
+                      </Header>
+                      <div className='inputBoxContainer'>
+                          <InputBox className="regInputEmail" label="Email Address" variant="outlined"/>
+                          <InputBox className="regInputfullName" label="Full name" variant="outlined"/>
+                          <InputBox className="regInputPassword" label="Password" variant="outlined"/>
+                          <PButton bName={CommonButton} title='Sign up'/>
+                          <AuthenticationLink className="regLink" title="Already  have an account ?" href="/login/" hrefTitle="Sign In"/>
+                      </div>
+                  </div>
+            </div>
           </Grid>
           <Grid item xs={6}>
             <div>
-                {/* <img src="assets/regiImg.png"/> */}
                 <Image className="registrationImg" imgSrc="assets/regiImg.png"/>
             </div>
           </Grid>
         </Grid>
-        
-        {/* <InputBox label="Username" variant="outlined"/>
-        <InputBox className="textcolor" label="Password" variant="outlined"/> */}
     </>
   )
 }
