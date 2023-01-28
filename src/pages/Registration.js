@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import AuthenticationLink from '../components/AuthenticationLink';
 import Alert from '@mui/material/Alert';
 import {AiFillEye, AiFillEyeInvisible} from 'react-icons/ai'
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 
 const CommonButton = styled(Button)({
   width:"100%",
@@ -104,10 +104,15 @@ const Registration = () => {
     }
     else{
       createUserWithEmailAndPassword(auth, values.email, values.password).then((users)=>{
+        sendEmailVerification(auth.currentUser)
+          .then(() => {
+            console.log("mail send")
+          });
         // console.log(users)
         setformData({...formData, email:"", fullname:"", password:""})
         setSuccessfullShow(true)
         console.log("successfully registerd")
+        
       }).catch((error)=>{
         const errorCode = error.code;
         if(errorCode.includes('auth/email-already-in-use')){
