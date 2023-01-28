@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Header from '../components/Header'
 import Heading from '../components/Heading'
 import Image from '../components/Image';
@@ -8,6 +8,7 @@ import PButton from '../components/PButton';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import AuthenticationLink from '../components/AuthenticationLink';
+import {AiFillEye, AiFillEyeInvisible} from 'react-icons/ai'
 
 
 const CommonButton = styled(Button)({
@@ -23,6 +24,8 @@ const CommonButton = styled(Button)({
 });
 
 const Login = () => {
+    
+  let [passwordIconShow, SetPasswordIconShow] = useState(false)
   return (
     <>
         <Grid container spacing={2}>
@@ -37,7 +40,14 @@ const Login = () => {
                       </Header>
                       <div className='inputBoxContainer'>
                           <InputBox className="regInputEmail" label="Email Address" variant="standard"/>
-                          <InputBox className="regInputPassword" label="Password" variant="standard"/>
+                          <div style={{width:"100%", position:"relative"}}>
+                          <InputBox type={passwordIconShow?"text":"password"} className="regInputPassword" label="Password" variant="standard"/>
+                          {passwordIconShow? 
+                          <AiFillEye onClick={()=>SetPasswordIconShow(false)} className='eyeIcons' />
+                          :
+                          <AiFillEyeInvisible onClick={()=>SetPasswordIconShow(true)} className='eyeIcons'/>
+                        }
+                          </div>
                           <PButton bName={CommonButton} title='Login to Continue'/>
                           <AuthenticationLink className="regLink" title="Don’t have an account ? " href="/" hrefTitle="Sign Up"/>
                       </div>
