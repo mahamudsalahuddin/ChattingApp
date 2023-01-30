@@ -1,7 +1,7 @@
 import React from 'react'
 
-const Image = ({imgSrc, className}) => {
-  return <img  className={className} src={imgSrc} />
+const Image = ({imgSrc, className, handleGoogleAcc}) => {
+  return <img onClick={handleGoogleAcc}  className={className} src={imgSrc} />
 }
 
 export default Image

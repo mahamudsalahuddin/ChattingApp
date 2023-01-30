@@ -74,3 +74,9 @@
   right: 20px;
   font-size: 25px;
 }
+.loder{
+  display: flex;
+  position: absolute;
+  top: -71px;
+  left: 151px;
+}
