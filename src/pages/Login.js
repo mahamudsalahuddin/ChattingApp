@@ -14,6 +14,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 // import { TailSpin } from "react-loader-spinner";
+import { useDispatch } from "react-redux";
+import { activeUser } from "../slices/userSlice";
 
 const CommonButton = styled(Button)({
   width: "100%",
@@ -30,6 +32,7 @@ const CommonButton = styled(Button)({
 const Login = () => {
   const auth = getAuth();
   let navigate = useNavigate();
+  let dispatch = useDispatch();
   const provider = new GoogleAuthProvider();
   let [passwordIconShow, SetPasswordIconShow] = useState(false);
   let [formData, setformData] = useState({
@@ -41,23 +44,26 @@ const Login = () => {
     setformData({ ...formData, [name]: value });
   };
   let handleClick = (e) => {
-    console.log(formData);
     // setFormError(validate(formData));
     signInWithEmailAndPassword(auth, formData.email, formData.password)
       .then((userCredential) => {
         // Signed in
-        // const user = userCredential.user;
-        // console.log("kaj hoyece", user);
-        // if(userCredential.user)
-        console.log(userCredential.user);
-        navigate("/home");
+        // login na korle home a jete parbena
+        dispatch(activeUser(userCredential.user))
+        localStorage.setItem("userInfo", JSON.stringify(userCredential.user))
+        if(userCredential.user.emailVerified){
+          navigate("/home");
+        }
+        else{
+          toast("Please varified your email and then try again later!");
+        }
       })
-      .catch((error) => {
-        // const errorCode = error.code;
-        // console.log("catch: ", errorCode);
-        // setformData({...formData, password:""})
-        toast("Please varified your email and then try again later!");
-      });
+      // .catch((error) => {
+      //   // const errorCode = error.code;
+      //   // console.log("catch: ", errorCode);
+      //   // setformData({...formData, password:""})
+      //   toast("Please varified your email and then try again later!");
+      // });
   };
 
   let handleGoogle= ()=>{
