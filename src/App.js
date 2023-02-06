@@ -12,11 +12,11 @@ import Home from "./pages/Home"
 function App() {
   let router = createBrowserRouter(
     createRoutesFromElements(
-      <>
+      <Route>
           <Route path="/" element={<Registration/>}></Route>
           <Route path="/login" element={<Login/>}></Route>
           <Route path="/home" element={<Home/>}></Route>
-      </>
+      </Route>
     )
   )
   return (

@@ -9,13 +9,30 @@ import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import AuthenticationLink from "../components/AuthenticationLink";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, sendPasswordResetEmail } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 // import { TailSpin } from "react-loader-spinner";
 import { useDispatch } from "react-redux";
 import { activeUser } from "../slices/userSlice";
+import Box from '@mui/material/Box';
+// import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
 
 const CommonButton = styled(Button)({
   width: "100%",
@@ -33,11 +50,17 @@ const Login = () => {
   const auth = getAuth();
   let navigate = useNavigate();
   let dispatch = useDispatch();
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   const provider = new GoogleAuthProvider();
   let [passwordIconShow, SetPasswordIconShow] = useState(false);
   let [formData, setformData] = useState({
     email: "",
     password: "",
+    fgp: "",
   });
   let handleTextChange = (e) => {
     let { name, value } = e.target;
@@ -65,6 +88,13 @@ const Login = () => {
       //   toast("Please varified your email and then try again later!");
       // });
   };
+  let handleFgp=()=>{
+    const auth = getAuth();
+    sendPasswordResetEmail(auth, formData.fgp)
+   .then(() => {
+    console.log("Password reset email sent!")
+    })
+  }
 
   let handleGoogle= ()=>{
     signInWithPopup(auth, provider)
@@ -115,6 +145,8 @@ const Login = () => {
                 </div>
                 <PButton click={handleClick} bName={CommonButton} title="Login to Continue" />
                 <AuthenticationLink className="regLink" title="Don’t have an account ? " href="/" hrefTitle="Sign Up" />
+                {/* <AuthenticationLink className="regLink" title="forgot password ? " href="/fgp" hrefTitle="click here" /> */}
+                <Button onClick={handleOpen}>Forgot password</Button>
               </div>
             </div>
           </div>
@@ -124,6 +156,23 @@ const Login = () => {
             <Image className="registrationImg" imgSrc="../assets/loginImg.png" />
           </div>
         </Grid>
+        <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Forgot Password
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          <InputBox name="fgp" textChange={handleTextChange} className="regInputEmail" label="Email" variant="standard" />
+          <PButton click={handleFgp} bName={CommonButton} title="Send" />
+
+          </Typography>
+        </Box>
+      </Modal>
       </Grid>
     </>
   );
