@@ -75,7 +75,7 @@ const Login = () => {
         dispatch(activeUser(userCredential.user))
         localStorage.setItem("userInfo", JSON.stringify(userCredential.user))
         if(userCredential.user.emailVerified){
-          navigate("/home");
+          navigate("/pechal");
         }
         else{
           toast("Please varified your email and then try again later!");
