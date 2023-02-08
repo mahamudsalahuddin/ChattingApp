@@ -15,6 +15,7 @@ const RootLayout = () => {
     let navigate = useNavigate();
     let dispatch = useDispatch();
     let data = useSelector(state=> state)
+    // console.log(data.userdata.userInfo.displayName)
     useEffect(()=>{
         if(!data.userdata.userInfo){
           navigate("/login");
@@ -39,6 +40,7 @@ const RootLayout = () => {
             <div className="imageholder">
                 <Image imgSrc="assets/profile.png" />
             </div>
+                <h5>{data.userdata.userInfo.displayName}</h5>
             <div className='iconholder'>
             <AiFillHome className='icons'/>
             <AiFillMessage className='icons'/>

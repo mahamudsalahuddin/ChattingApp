@@ -10,7 +10,7 @@ import Button from "@mui/material/Button";
 import AuthenticationLink from "../components/AuthenticationLink";
 import Alert from "@mui/material/Alert";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, updateProfile  } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -119,14 +119,23 @@ const Registration = () => {
       setLoader(true)
       createUserWithEmailAndPassword(auth, values.email, values.password)
         .then((users) => {
-          sendEmailVerification(auth.currentUser).then(() => {
-            console.log("A mail send your email");
-            toast("Registered successfully please check your mail");
-            setLoader(false)
-            setTimeout(() => {
-              navigate("/login");
-            }, 2000);
-          });
+          sendEmailVerification(auth.currentUser)
+          .then(()=>{
+            updateProfile(auth.currentUser, {
+              displayName: formData.fullname
+              // , photoURL: "https://example.com/jane-q-user/profile.jpg"
+            }).then(() => {
+              // Profile updated!
+              console.log("A mail send your email");
+              toast("Registered successfully please check your mail");
+              setLoader(false)
+              setTimeout(() => {
+                navigate("/login");
+              }, 2000);
+            }).catch((error) => {
+              // An error occurred
+            });
+          })
           // for Email varification
           setformData({ ...formData, email: "", fullname: "", password: "" });
           // setSuccessfullShow(true);
