@@ -3,13 +3,13 @@
 // import { useNavigate } from "react-router-dom";
 // import { useSelector, useDispatch } from "react-redux";
 // import { activeUser } from "../slices/userSlice";
-import Grid from '@mui/material/Grid';
-import Block from '../components/Block';
-import FriendRequest from '../components/FriendRequest';
-import Friends from '../components/Friends';
-import GroupList from '../components/GroupList';
-import MyGroups from '../components/MyGroups';
-import UserList from '../components/UserList';
+import Grid from "@mui/material/Grid";
+import Block from "../components/Block";
+import FriendRequest from "../components/FriendRequest";
+import Friends from "../components/Friends";
+import GroupList from "../components/GroupList";
+import MyGroups from "../components/MyGroups";
+import UserList from "../components/UserList";
 const Home = () => {
   // const auth = getAuth();
   // let navigate = useNavigate();
@@ -34,7 +34,7 @@ const Home = () => {
   // });
 
   // let handleLogout = () => {
-   
+
   //   signOut(auth).then(() => {
   //     localStorage.removeItem("userInfo")
   //     dispatch(activeUser(null))
@@ -44,18 +44,18 @@ const Home = () => {
 
   return (
     <>
-        <Grid item xs={4}>
-          <GroupList/>
-          <FriendRequest/>
-        </Grid>
-        <Grid item xs={3}>
-          <Friends/>
-          <MyGroups/>
-        </Grid>
-        <Grid item xs={3}>
-          <UserList/>
-          <Block/>
-        </Grid>
+      <Grid item xs={4}>
+        <GroupList />
+        <FriendRequest />
+      </Grid>
+      <Grid item xs={3}>
+        <Friends />
+        <MyGroups />
+      </Grid>
+      <Grid item xs={3}>
+        <UserList />
+        <Block />
+      </Grid>
       {/* <button onClick={handleLogout}>Logout</button> */}
     </>
   );

@@ -10,7 +10,15 @@ import Button from "@mui/material/Button";
 import AuthenticationLink from "../components/AuthenticationLink";
 import Alert from "@mui/material/Alert";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, updateProfile  } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  signInWithEmailAndPassword,
+  updateProfile,
+  setPersistence,
+} from "firebase/auth";
+import { getDatabase, ref, push, set } from "firebase/database";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -31,7 +39,9 @@ const CommonButton = styled(Button)({
 
 const Registration = () => {
   const auth = getAuth();
+  const db = getDatabase();
   let navigate = useNavigate();
+
   let [formData, setformData] = useState({
     email: "",
     fullname: "",
@@ -50,9 +60,8 @@ const Registration = () => {
   };
 
   let handleClick = (e) => {
-    
     setFormError(validate(formData));
-    
+
     // signInWithEmailAndPassword(auth, formData.email, formData.password)
     //   .then((userCredential) => {
     //     // Signed in
@@ -64,7 +73,6 @@ const Registration = () => {
     //     const errorCode = error.code;
     //     console.log("catch: ", errorCode);
     //   });
-
 
     // setIsSubmit(true)
 
@@ -92,50 +100,58 @@ const Registration = () => {
     if (!values.email) {
       errors.isEmailTrue = true;
       errors.email = "Email is required";
-      return
+      return;
     } else if (!regex.test(values.email)) {
       errors.isEmailTrue = true;
       errors.email = "This is not a valid email format";
-      return
+      return;
     }
     if (!values.fullname) {
       errors.isFullnameTrue = true;
       errors.fullname = "Fullname is required";
-      return
+      return;
     }
     if (!values.password) {
       errors.isPasswordTrue = true;
       errors.password = "Password is required";
-      return
+      return;
     } else if (values.password.length < 6) {
       errors.isPasswordTrue = true;
       errors.password = "Password must be more than or equal to 6";
-      return
+      return;
     } else if (values.password.length > 12) {
       errors.isPasswordTrue = true;
       errors.password = "Password must be less than or equal to 12";
-      return
-    } else { 
-      setLoader(true)
+      return;
+    } else {
+      setLoader(true);
       createUserWithEmailAndPassword(auth, values.email, values.password)
         .then((users) => {
-          sendEmailVerification(auth.currentUser)
-          .then(()=>{
+          sendEmailVerification(auth.currentUser).then(() => {
+            // console.log(users.user)
             updateProfile(auth.currentUser, {
-              displayName: formData.fullname
+              displayName: formData.fullname,
               // , photoURL: "https://example.com/jane-q-user/profile.jpg"
-            }).then(() => {
-              // Profile updated!
-              console.log("A mail send your email");
-              toast("Registered successfully please check your mail");
-              setLoader(false)
-              setTimeout(() => {
-                navigate("/login");
-              }, 2000);
-            }).catch((error) => {
-              // An error occurred
-            });
-          })
+            })
+              .then(() => {
+                // Profile updated!
+                set(ref(db, "users/" + users.user.uid), {
+                  displayName: users.user.displayName,
+                  email: users.user.email,
+                }).then(()=>{
+                  console.log("A mail send your email");
+                  toast("Registered successfully please check your mail");
+                  setLoader(false);
+                  setTimeout(() => {
+                    navigate("/login");
+                  }, 2000);
+                })
+                
+              })
+              .catch((error) => {
+                // An error occurred
+              });
+          });
           // for Email varification
           setformData({ ...formData, email: "", fullname: "", password: "" });
           // setSuccessfullShow(true);
@@ -144,7 +160,7 @@ const Registration = () => {
         .catch((error) => {
           // If alraedy have an account
           const errorCode = error.code;
-          setLoader(false)
+          setLoader(false);
           if (errorCode.includes("auth/email-already-in-use")) {
             errors.email = "Email Already Exist";
             formError.isEmailTrue = true;
@@ -233,22 +249,22 @@ const Registration = () => {
                   </Alert>
                 )}
 
-                
-                <div style={{position: "relative", width:"100%"}}>
-                  {loader ?
-                <TailSpin
-                  style={{ position: "absolute", top: "100px" }}
-                  height="80"
-                  width="80"
-                  color="#4fa94d"
-                  ariaLabel="tail-spin-loading"
-                  radius="1"
-                  wrapperStyle={{}}
-                  wrapperClass="loder"
-                  visible={true}
-                />:
-                <PButton click={handleClick} bName={CommonButton} title="Sign up" />
-                }
+                <div style={{ position: "relative", width: "100%" }}>
+                  {loader ? (
+                    <TailSpin
+                      style={{ position: "absolute", top: "100px" }}
+                      height="80"
+                      width="80"
+                      color="#4fa94d"
+                      ariaLabel="tail-spin-loading"
+                      radius="1"
+                      wrapperStyle={{}}
+                      wrapperClass="loder"
+                      visible={true}
+                    />
+                  ) : (
+                    <PButton click={handleClick} bName={CommonButton} title="Sign up" />
+                  )}
                 </div>
                 <AuthenticationLink className="regLink" title="Already  have an account ?" href="/login/" hrefTitle="Sign In" />
               </div>
