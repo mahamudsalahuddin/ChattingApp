@@ -5,7 +5,8 @@ import Image from './Image';
 import { useNavigate } from "react-router-dom";
 import { activeUser } from "../slices/userSlice";
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
-import PButton from './PButton';
+// import PButton from './PButton';
+import PButton from "../components/PButton";
 import { useSelector, useDispatch } from "react-redux";
 import {AiFillHome, AiFillMessage,AiFillSetting, AiOutlineLogout} from "react-icons/ai"
 import {IoIosNotifications} from "react-icons/io"
@@ -13,13 +14,15 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-
+import { styled } from "@mui/material/styles";
+import { getStorage, ref, uploadString } from "firebase/storage";
 import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Stack from '@mui/material/Stack';
 
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
+
 
 const style = {
     position: 'absolute',
@@ -32,7 +35,18 @@ const style = {
     boxShadow: 24,
     p: 4,
   };
-
+// for button
+  const CommonButton = styled(Button)({
+    width: "100%",
+    backgroundColor: "#5F35F5",
+    padding: "19px 12px",
+    borderRadius: "86px",
+    marginTop: "56px",
+    fontFamily: ["Nunito", "sans-serif"],
+    "&:hover": {
+      backgroundColor: "#0069d9",
+    },
+  });
 const RootLayout = () => {
     const auth = getAuth();
     let navigate = useNavigate();
@@ -77,6 +91,13 @@ const RootLayout = () => {
           const getCropData = () => {
             if (typeof cropper !== "undefined") {
               setCropData(cropper.getCroppedCanvas().toDataURL());
+              const storage = getStorage();
+              const storageRef = ref(storage, `profilePic/${data.userdata.userInfo.uid}`);
+              // Data URL string
+              const message4 = cropper.getCroppedCanvas().toDataURL();
+              uploadString(storageRef, message4, 'data_url').then((snapshot) => {
+              console.log('Uploaded a data_url string!');
+              });
             }
           };
 
@@ -134,8 +155,9 @@ const RootLayout = () => {
                             <PhotoCamera />
                         </IconButton>
                         </Stack>
-                        {image &&
-                        <Cropper
+                        {image && (
+                        <>
+                            <Cropper
                             style={{ height: 400, width: "100%" }}
                             zoomTo={0.5}
                             initialAspectRatio={1}
@@ -153,7 +175,9 @@ const RootLayout = () => {
                             }}
                             guides={true}
                             />
-                        }
+                           <PButton click={getCropData} bName={CommonButton} title="Upload" />
+                        </>
+                        )}
                     </Typography>
                 
                     </Box>
