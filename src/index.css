@@ -180,3 +180,14 @@
   overflow: hidden;
   border-radius: 50%;
 }
+.proSize{
+  width: 70px !important;
+  width: 70px !important;
+  border-radius: 50%;
+}
+.profileName{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
