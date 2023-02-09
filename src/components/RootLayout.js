@@ -22,6 +22,8 @@ import { getDownloadURL } from "firebase/storage";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 
+// const defaultSrc = "https://raw.githubusercontent.com/roadmanfong/react-cropper/master/example/img/child.jpg";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -56,6 +58,8 @@ const RootLayout = () => {
       navigate("/login");
     }
   }, []);
+
+//   const [proImage, setProImage] = useState(defaultSrc);
 
   let handleLogout = () => {
     signOut(auth).then(() => {
@@ -101,8 +105,8 @@ const RootLayout = () => {
             photoURL: downloadURL,
           }).then(() => {
             console.log("image Upload");
-            dispatch(activeUser(auth.currentUser))
-           localStorage.setItem("userInfo", JSON.stringify(auth.currentUser))
+            dispatch(activeUser(auth.currentUser));
+            localStorage.setItem("userInfo", JSON.stringify(auth.currentUser));
           });
         });
       });
@@ -116,7 +120,12 @@ const RootLayout = () => {
           <div className="sidebarBox">
             <div className="sidebar">
               <div className="imageholder">
-                <Image className="proSize" handleImage={handleOpen} imgSrc={data.userdata.userInfo.photoURL} />
+                {/* <Image className="proSize" handleImage={handleOpen} imgSrc="assets/profile.png" /> */}
+                {data.userdata.userInfo.photoURL?
+                    <Image className="proSize" handleImage={handleOpen} imgSrc={data.userdata.userInfo.photoURL} />
+                :
+                <Image className="proSize" handleImage={handleOpen} imgSrc="assets/profile.png" />
+                }
               </div>
               <h5 className="profileName">{data.userdata.userInfo.displayName}</h5>
               <div className="iconholder">
