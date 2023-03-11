@@ -27,6 +27,7 @@ const UserList = () => {
   let [userlist, setUserlist] = useState([]);
   let [friendRequest, setFriendRequest] = useState([]);
   let [friends, setFriends] = useState([]);
+  let [block, setBlock] = useState([]);
   // let [unfriend, setUnfriend] = useState([]);
 
   useEffect(() => {
@@ -61,6 +62,17 @@ const UserList = () => {
         arr.push(item.val().receiverId + item.val().senderId);
       });
       setFriendRequest(arr);
+    });
+  }, []);
+
+  useEffect(() => {
+    const userRef = ref(db, "block");
+    onValue(userRef, (snapshot) => {
+      let arr = [];
+      snapshot.forEach((item) => {
+        arr.push(item.val().blockOnId + item.val().blockById);
+      });
+      setBlock(arr);
     });
   }, []);
 
@@ -115,10 +127,13 @@ const UserList = () => {
                 <button className="boxbtn">
                   Pending
                 </button>
-              //   <button onClick={()=>handleCancelRequest(item)} className="boxbtn">
-              //   Pending
-              // </button>
-              ) : (
+              ) : 
+              block.includes(item.id + data.userdata.userInfo.uid) || block.includes(data.userdata.userInfo.uid + item.id) ?
+              <button className="boxbtn">
+                  Blocked
+                </button>
+              :
+              (
                 <button onClick={() => handleFriendRequest(item)} className="boxbtn">
                   Add
                 </button>
