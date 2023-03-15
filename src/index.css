@@ -191,3 +191,12 @@
   justify-content: center;
   margin-top: 10px;
 }
+.CrGrpInput{
+  width: 100%;
+  margin-top: 10px !important;
+}
+.CrGrpInputBox{
+  display: flex;
+  position: relative;
+  flex-direction: column;
+}

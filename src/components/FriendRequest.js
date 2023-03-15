@@ -21,7 +21,6 @@ const FriendRequest = () => {
     onValue(starCountRef, (snapshot) => {
       let arr = [];
       snapshot.forEach(item => {
-        console.log(item)
         if(item.val().receiverId == data.userdata.userInfo.uid){
               arr.push({...item.val(), id:item.key});
         }

@@ -55,8 +55,8 @@ const Friends = () => {
             <h3>Friends</h3>
         </div>
         <div className='boxholder'>
-            {friends.map((item)=>(
-                <div className='box'>
+            {friends.map((item, key)=>(
+                <div key={key} className='box'>
                 <div className='boxImgholder'>
                     <Image imgSrc="assets/profile.png"/>
                 </div>

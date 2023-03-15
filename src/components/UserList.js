@@ -28,7 +28,8 @@ const UserList = () => {
   let [friendRequest, setFriendRequest] = useState([]);
   let [friends, setFriends] = useState([]);
   let [block, setBlock] = useState([]);
-  // let [unfriend, setUnfriend] = useState([]);
+  let [unfriend, setUnfriend] = useState([]);
+  // let [temporary, setTemporary] = useState([]);
 
   useEffect(() => {
     const userRef = ref(db, "users");
@@ -75,8 +76,23 @@ const UserList = () => {
       setBlock(arr);
     });
   }, []);
+  // ==============================================================================
+  useEffect(() => {
+    const userRef = ref(db, "friendRequest");
+    onValue(userRef, (snapshot) => {
+      let arr = [];
+      snapshot.forEach((item) => {
+        arr.push({ ...item.val(), key: item.key });
+        // console.log("val"+ item.val())
+      });
+      setUnfriend(arr);
+    });
+  }, []);
+  // ==============================================================================
 
   let handleFriendRequest = (info) => {
+    console.log(data.userdata.userInfo.displayName)
+    // setTemporary(info.id)
     // info hocce jake click kora hocce tar information
     set(push(ref(db, "friendRequest")), {
       senderName: data.userdata.userInfo.displayName,
@@ -93,19 +109,27 @@ const UserList = () => {
   // }
 
   // unfriend a kaj kortesena tai comment kore rakhlam
-  // let handleUnfriend=(item)=>{
-  //   remove(ref(db, "friends/"+item.id)).then(()=>{
-  //     console.log("unfriend")
-  // }) 
-  // }
+  let handleUnfriend=(item)=>{
+    // console.log("ami: "+data.userdata.userInfo.uid)
+    // console.log("jake fr pataisi: "+item.id)
+    // console.log(unfriend[0].key)
+    // console.log("unfriend : "+unfriend)
+
+    // if(data.userdata.userInfo.uid == item.senderId){
+
+    // }
+    remove(ref(db, "friendRequest/"+unfriend[0].key)).then(()=>{
+      console.log("unfriend")
+  }) 
+  }
   return (
     <div className="groupholder">
       <div className="titleholder">
         <h3>User List</h3>
       </div>
       <div className="boxholder">
-        {userlist.map((item) => (
-          <div className="box">
+        {userlist.map((item, key) => (
+          <div key={key} className="box">
             <div className="boxImgholder">
               <Image imgSrc="assets/profile.png" />
             </div>
@@ -123,11 +147,19 @@ const UserList = () => {
                 //   Friend
                 // </button>
                 :
-              friendRequest.includes(item.id + data.userdata.userInfo.uid) || friendRequest.includes(data.userdata.userInfo.uid + item.id) ? (
-                <button className="boxbtn">
-                  Pending
+              friendRequest.includes(item.id + data.userdata.userInfo.uid) || friendRequest.includes(data.userdata.userInfo.uid + item.id) ? 
+              data.userdata.userInfo.uid == friendRequest.receiverId? 
+              (
+                <button onClick={()=>handleUnfriend(item)} className="boxbtn">
+                  Cancel Friend Request
                 </button>
-              ) : 
+              ):
+              (
+                <button className="boxbtn">
+                  Accept
+                </button>
+              ) 
+              : 
               block.includes(item.id + data.userdata.userInfo.uid) || block.includes(data.userdata.userInfo.uid + item.id) ?
               <button className="boxbtn">
                   Blocked
@@ -135,7 +167,7 @@ const UserList = () => {
               :
               (
                 <button onClick={() => handleFriendRequest(item)} className="boxbtn">
-                  Add
+                  Add Friend
                 </button>
               )}
 
