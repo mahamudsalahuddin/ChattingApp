@@ -67,14 +67,22 @@ const GroupList = () => {
     onValue(ref(db, "groups"), (snapshot) => {
       let arr = [];
       snapshot.forEach((item) => {
-        arr.push(item.val());
+        arr.push({...item.val(), gid:item.key});
       });
       setGroupList(arr);
     });
   }, []);
 
-  let handleGroupJoin = () => {
-    console.log("join");
+  let handleGroupJoin = (item) => {
+    set(push(ref(db, "groupRequest")), {
+        groupName: item.groupName,
+        groupTag: item.groupTag,
+        groupId: item.gid,
+        userId:data.userdata.userInfo.uid,
+        userName: data.userdata.userInfo.displayName
+    }).then(()=>{
+        console.log("join request send")
+    })
   };
   return (
     <div className="groupholder">
@@ -104,7 +112,7 @@ const GroupList = () => {
                 <p>{item.groupTag}</p>
               </div>
               <div>
-                <button onClick={handleGroupJoin} className="boxbtn">
+                <button onClick={()=>handleGroupJoin(item)} className="boxbtn">
                   Join
                 </button>
               </div>
