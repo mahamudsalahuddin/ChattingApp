@@ -13,6 +13,9 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import Stack from '@mui/material/Stack';
+import { ToastContainer } from "react-toastify";
+import Alert from "@mui/material/Alert";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -106,11 +109,25 @@ const MyGroups = () => {
   }
   return (
     <div className="groupholder">
+      <ToastContainer
+        position="bottom-center"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <div className="titleholder">
         <h3>My Groups</h3>
       </div>
       <div className="boxholder">
-        {myGroup.map((item, key) => (
+        {
+        myGroup.length >0 ?(
+        myGroup.map((item, key) => (
           <div key={key} className="box">
             <div className="boxImgholder">
               <Image imgSrc="assets/profile.png" />
@@ -126,7 +143,13 @@ const MyGroups = () => {
               </button>
             </div>
           </div>
-        ))}
+        ))):
+        (
+          <Alert style={{ marginTop: "20px" }} variant="filled" severity="info">
+            No Block Users
+          </Alert>
+        )
+        }
       </div>
       {/* ======================= for Member Information===================== */}
       <Modal open={open2} onClose={handleClose2} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">

@@ -10,6 +10,8 @@ import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import { useSelector } from "react-redux";
 import { getDatabase, ref, set, push, onValue } from "firebase/database";
+import { ToastContainer } from "react-toastify";
+import Alert from "@mui/material/Alert";
 import { Dna } from "react-loader-spinner";
 // import { useNavigate } from "react-router-dom";
 
@@ -86,12 +88,24 @@ const GroupList = () => {
   };
   return (
     <div className="groupholder">
+      <ToastContainer
+        position="bottom-center"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <div className="titleholder">
         <h3>Group List</h3>
         <button onClick={handleOpen}>Create Group</button>
       </div>
       <div className="boxholder">
-        {groupList.map((item, key) =>
+        { groupList.map((item, key) =>
           data.userdata.userInfo.uid == item.adminId ? (
             <div key={key} className="box">
               <div className="boxImgholder">
@@ -118,7 +132,9 @@ const GroupList = () => {
               </div>
             </div>
           )
-        )}
+        )
+
+      }
       </div>
       <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
         <Box sx={style}>
