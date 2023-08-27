@@ -61,38 +61,7 @@ const Registration = () => {
 
   let handleClick = (e) => {
     setFormError(validate(formData));
-
-    // signInWithEmailAndPassword(auth, formData.email, formData.password)
-    //   .then((userCredential) => {
-    //     // Signed in
-    //     const user = userCredential.user;
-    //     console.log("kaj hoyece", user);
-    //     // ...
-    //   })
-    //   .catch((error) => {
-    //     const errorCode = error.code;
-    //     console.log("catch: ", errorCode);
-    //   });
-
-    // setIsSubmit(true)
-
-    // if(!formData.email){
-    //   setFormError({...formError, emailError:true})
-    // }
-    // else if(!formData.fullname){
-    //   setFormError({...formError, fullnameError:true})
-    // }
-    // else if(!formData.password){
-    //   setFormError({...formError, passwordError:true})
-    // }
   };
-
-  // useEffect(()=>{
-  //   console.log(formData)
-  //   if(Object.keys(formError).length == 0 && isSubmit){
-  //     console.log(formData)
-  //   }
-  // }, [formError])
 
   let validate = (values) => {
     let errors = {};
@@ -100,38 +69,41 @@ const Registration = () => {
     if (!values.email) {
       errors.isEmailTrue = true;
       errors.email = "Email is required";
-      return;
-    } else if (!regex.test(values.email)) {
+      // return;
+    }
+    
+     else if (!regex.test(values.email)) {
       errors.isEmailTrue = true;
       errors.email = "This is not a valid email format";
-      return;
+      // return;
     }
     if (!values.fullname) {
       errors.isFullnameTrue = true;
       errors.fullname = "Fullname is required";
-      return;
+      
+      // return;
     }
+    console.log(!values.fullname)
     if (!values.password) {
       errors.isPasswordTrue = true;
       errors.password = "Password is required";
-      return;
+      // return;
     } else if (values.password.length < 6) {
       errors.isPasswordTrue = true;
       errors.password = "Password must be more than or equal to 6";
-      return;
+      // return;
     } else if (values.password.length > 12) {
       errors.isPasswordTrue = true;
       errors.password = "Password must be less than or equal to 12";
-      return;
-    } else {
+      // return;
+   } 
+   else {
       setLoader(true);
       createUserWithEmailAndPassword(auth, values.email, values.password)
         .then((users) => {
           sendEmailVerification(auth.currentUser).then(() => {
-            // console.log(users.user)
             updateProfile(auth.currentUser, {
               displayName: formData.fullname,
-              // , photoURL: "https://example.com/jane-q-user/profile.jpg"
             })
               .then(() => {
                 // Profile updated!

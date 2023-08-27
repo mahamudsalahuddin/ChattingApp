@@ -62,13 +62,71 @@ const Login = () => {
     password: "",
     fgp: "",
   });
+  let [formError, setFormError] = useState({});
   let handleTextChange = (e) => {
     let { name, value } = e.target;
     setformData({ ...formData, [name]: value });
   };
   let handleClick = (e) => {
-    // setFormError(validate(formData));
-    signInWithEmailAndPassword(auth, formData.email, formData.password)
+    setFormError(validate(formData));
+// ====================================================================
+    // signInWithEmailAndPassword(auth, formData.email, formData.password)
+    //   .then((userCredential) => {
+    //     // Signed in
+    //     // login na korle home a jete parbena
+    //     dispatch(activeUser(userCredential.user))
+    //     localStorage.setItem("userInfo", JSON.stringify(userCredential.user))
+    //     if(userCredential.user.emailVerified){
+    //       navigate("/pechal");
+    //     }
+    //     else{
+    //       toast("Please varified your email and then try again later!");
+    //     }
+    //   })
+// ====================================================================
+      // .catch((error) => {
+      //   // const errorCode = error.code;
+      //   // console.log("catch: ", errorCode);
+      //   // setformData({...formData, password:""})
+      //   toast("Please varified your email and then try again later!");
+      // });
+  };
+
+  let validate = (values) => {
+    let errors = {};
+    let regex = /^[^\s@]+@[^\s@]+[^\s@]{2,}$/i;
+    if (!values.email) {
+      errors.isEmailTrue = true;
+      errors.email = "Email is required";
+      console.log("Email is required");
+      // return;
+    }
+    
+     else if (!regex.test(values.email)) {
+      errors.isEmailTrue = true;
+      errors.email = "This is not a valid email format";
+      console.log("This is not a valid email format");
+      // return;
+    }
+    
+    if (!values.password) {
+      errors.isPasswordTrue = true;
+      errors.password = "Password is required";
+      console.log("Password is required");
+      // return;
+    } else if (values.password.length < 6) {
+      errors.isPasswordTrue = true;
+      errors.password = "Password must be more than or equal to 6";
+      console.log("Password must be more than or equal to 6");
+      // return;
+    } else if (values.password.length > 12) {
+      errors.isPasswordTrue = true;
+      errors.password = "Password must be less than or equal to 12";
+      console.log("Password must be less than or equal to 12");
+      // return;
+   } 
+   else {
+      signInWithEmailAndPassword(auth, formData.email, formData.password)
       .then((userCredential) => {
         // Signed in
         // login na korle home a jete parbena
@@ -81,13 +139,63 @@ const Login = () => {
           toast("Please varified your email and then try again later!");
         }
       })
-      // .catch((error) => {
-      //   // const errorCode = error.code;
-      //   // console.log("catch: ", errorCode);
-      //   // setformData({...formData, password:""})
-      //   toast("Please varified your email and then try again later!");
-      // });
+      .catch((error) => {
+        const errorCode = error.code;
+        console.log("catch: ", errorCode);
+        // setformData({...formData, password:""})
+        toast("Email and or password wrong!");
+      });
+
+
+
+      // setLoader(true);
+      // createUserWithEmailAndPassword(auth, values.email, values.password)
+      //   .then((users) => {
+      //     sendEmailVerification(auth.currentUser).then(() => {
+      //       updateProfile(auth.currentUser, {
+      //         displayName: formData.fullname,
+      //       })
+      //         .then(() => {
+      //           // Profile updated!
+      //           set(ref(db, "users/" + users.user.uid), {
+      //             displayName: users.user.displayName,
+      //             email: users.user.email,
+      //           }).then(()=>{
+      //             console.log("A mail send your email");
+      //             toast("Registered successfully please check your mail");
+      //             setLoader(false);
+      //             setTimeout(() => {
+      //               navigate("/login");
+      //             }, 2000);
+      //           })
+                
+      //         })
+      //         .catch((error) => {
+      //           // An error occurred
+      //         });
+      //     });
+      //     // for Email varification
+      //     setformData({ ...formData, email: "", fullname: "", password: "" });
+      //     // setSuccessfullShow(true);
+      //     // console.log("You have registered successfully");
+      //   })
+      //   .catch((error) => {
+      //     // If alraedy have an account
+      //     const errorCode = error.code;
+      //     setLoader(false);
+      //     if (errorCode.includes("auth/email-already-in-use")) {
+      //       errors.email = "Email Already Exist";
+      //       formError.isEmailTrue = true;
+      //       errors.isEmailTrue = true;
+      //       console.log(errors.email);
+      //     }
+      //   });
+    }
+    return errors;
   };
+
+
+  // ====================================================
   let handleFgp=()=>{
     const auth = getAuth();
     sendPasswordResetEmail(auth, formData.fgp)
