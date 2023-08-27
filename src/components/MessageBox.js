@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { getDatabase, ref, set, push, onValue } from "firebase/database";
 import moment from "moment/moment";
 import ScrollToBottom from 'react-scroll-to-bottom';
+import Alert from "@mui/material/Alert";
 
 const MessageBox = () => {
   let data = useSelector((state) => state);
@@ -78,7 +79,9 @@ const MessageBox = () => {
   return (
     <div className="messageBox">
       {data.activeUser.activeChatUser == null ? (
-        <div>select a name</div>
+        <Alert style={{ marginTop: "20px", position: "absolute", marginTop: "311px", marginLeft:"203px" }} variant="filled" severity="info">
+            Select Message Button From Friends Section.
+          </Alert>
       ) : (
         <>
           <div className="chatHeading">

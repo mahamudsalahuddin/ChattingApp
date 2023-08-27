@@ -3,6 +3,8 @@ import { getDatabase, ref, onValue, remove, set, push } from "firebase/database"
 import { useSelector, useDispatch } from "react-redux";
 import { activeChatUser } from "../slices/activeChatSlice";
 import Image from "./Image";
+import { ToastContainer } from "react-toastify";
+import Alert from "@mui/material/Alert";
 const MessageFriend = () => {
   const db = getDatabase();
   let [friends, setFriends] = useState([]);
@@ -28,11 +30,25 @@ const MessageFriend = () => {
   };
   return (
     <div className="groupholder">
+      <ToastContainer
+        position="bottom-center"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <div className="titleholder">
         <h3>Friends</h3>
       </div>
       <div className="boxholder">
-        {friends.map((item, key) => (
+        {
+        friends.length>0 ?
+        friends.map((item, key) => (
           <div key={key} className="box">
             <div className="boxImgholder">
               <Image imgSrc="assets/profile.png" />
@@ -48,7 +64,15 @@ const MessageFriend = () => {
               </button>
             </div>
           </div>
-        ))}
+        ))
+      :
+     <>
+      <Alert style={{ marginTop: "20px" }} variant="filled" severity="info">
+            You Have No Friends. Make Friends and Then Message Them.
+          </Alert>
+     </>
+      
+      }
       </div>
     </div>
   );
