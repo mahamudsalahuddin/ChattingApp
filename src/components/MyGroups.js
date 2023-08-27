@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Image from "./Image";
-import { getDatabase, ref, onValue , remove} from "firebase/database";
+import { getDatabase, ref, onValue , remove, push, set} from "firebase/database";
 import { useSelector } from "react-redux";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -30,11 +30,13 @@ const MyGroups = () => {
   let data = useSelector((state) => state);
   let [myGroup, setMyGroup] = useState([]);
   let [myGroupRequest, setMyGroupRequest] = useState([]);
+  let [myGroupMamber, setMyGroupMamber] = useState([]);
 
-  const [open, setOpen] = React.useState(false);
+  const [open1, setOpen1] = React.useState(false);
+  const [open2, setOpen2] = React.useState(false);
 
-  const handleOpen = (id) => {
-    setOpen(true);
+  const handleOpen1 = (id) => {
+    setOpen1(true);
     const starCountRef = ref(db, "groupRequest");
     onValue(starCountRef, (snapshot) => {
       let arr = [];
@@ -46,7 +48,22 @@ const MyGroups = () => {
       setMyGroupRequest(arr);
     });
   };
-  const handleClose = () => setOpen(false);
+  const handleClose1 = () => setOpen1(false);
+
+  const handleOpen2 =(id)=>{
+    setOpen2(true);
+    const starCountRef = ref(db, "groupMamber");
+    onValue(starCountRef, (snapshot) => {
+      let arr = [];
+      snapshot.forEach((item) => {
+        arr.push({ ...item.val(), DelId2: item.key });
+        // if (id == item.val().groupId) {
+        // }
+      });
+      setMyGroupMamber(arr);
+    });
+  }
+  const handleClose2 = () => setOpen2(false);
 
   useEffect(() => {
     const starCountRef = ref(db, "groups");
@@ -71,6 +88,22 @@ const MyGroups = () => {
 
     })
   }
+  let handleGroupRequestAccept= (item)=>{
+    console.log(item)
+    set(push(ref(db, "groupMembers")), {
+      groupId: item.groupId,
+      groupName: item.groupName,
+      groupTag: item.groupTag,
+      mamberId:item.userId,
+      mamberName: item.userName,
+      adminId: data.userdata.userInfo.uid
+  }).then(()=>{
+    remove(ref(db, "groupRequest/"+item.DelId)).then(()=>{
+      console.log("Accept join request")
+
+    })
+  })
+  }
   return (
     <div className="groupholder">
       <div className="titleholder">
@@ -87,15 +120,50 @@ const MyGroups = () => {
               <p>{item.groupTag}</p>
             </div>
             <div>
-              <button className="boxbtn">G-Inf</button>
-              <button onClick={() => handleOpen(item.groupId)} className="boxbtn">
+              <button onClick={() => handleOpen2(item.groupId)} className="boxbtn">G-Inf</button>
+              <button onClick={() => handleOpen1(item.groupId)} className="boxbtn">
                 M-Request
               </button>
             </div>
           </div>
         ))}
       </div>
-      <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+      {/* ======================= for Member Information===================== */}
+      <Modal open={open2} onClose={handleClose2} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Mamber Request
+          </Typography>
+            {/* ================================================================== */}
+            <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+              {/* {myGroupMamber.map((item, key)=>(
+                <div key={key}>
+                  <ListItem alignItems="flex-start">
+                <ListItemAvatar>
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                </ListItemAvatar>
+                <ListItemText
+                  primary="{item.userName}"
+                />
+                <Stack  direction="row" spacing={2}>
+                  <Button onClick={()=>handleGroupRequestReject(item.DelId)} variant="outlined">
+                    Reject
+                  </Button>
+                  <Button onClick={()=>handleGroupRequestAccept(item)}  variant="contained">
+                    Accept
+                  </Button>
+                </Stack>
+              </ListItem>
+              <Divider variant="inset" component="li" />
+                </div>
+              ))} */}
+              
+            </List>
+            {/* ================================================================== */}
+        </Box>
+      </Modal>
+      {/* ======================= for Member Request===================== */}
+      <Modal open={open1} onClose={handleClose1} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Mamber Request
@@ -116,7 +184,7 @@ const MyGroups = () => {
                   <Button onClick={()=>handleGroupRequestReject(item.DelId)} variant="outlined">
                     Reject
                   </Button>
-                  <Button variant="contained">
+                  <Button onClick={()=>handleGroupRequestAccept(item)}  variant="contained">
                     Accept
                   </Button>
                 </Stack>

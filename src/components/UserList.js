@@ -148,7 +148,7 @@ const UserList = () => {
                 // </button>
                 :
               friendRequest.includes(item.id + data.userdata.userInfo.uid) || friendRequest.includes(data.userdata.userInfo.uid + item.id) ? 
-              data.userdata.userInfo.uid == friendRequest.receiverId? 
+              data.userdata.userInfo.uid !== friendRequest.receiverId? 
               (
                 <button onClick={()=>handleUnfriend(item)} className="boxbtn">
                   Cancel Friend Request

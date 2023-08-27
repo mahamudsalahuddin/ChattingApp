@@ -53,11 +53,11 @@
   margin-left: 5px;
 }
 
-.loginWithGoogle{
+.loginWithGoogle {
   margin-top: 32px;
 }
 
-.logLeftside{
+.logLeftside {
   display: flex;
   /* flex-direction: column; */
   justify-content: center;
@@ -65,23 +65,23 @@
   margin-top: 150px;
 }
 
-.error{
+.error {
   width: 92%;
 }
-.eyeIcons{
+.eyeIcons {
   position: absolute;
   bottom: 16px;
   right: 20px;
   font-size: 25px;
 }
-.loder{
+.loder {
   display: flex;
   position: absolute;
   top: -71px;
   left: 151px;
 }
 
-.sidebar{
+.sidebar {
   width: 95%;
   height: 98vh;
   background: #5f35fa;
@@ -89,19 +89,19 @@
   padding: 38px 43px;
   box-sizing: border-box;
 }
-.sidebarBox{
+.sidebarBox {
   display: flex;
   align-items: center;
   justify-content: end;
   height: 100vh;
-  
+
   flex-direction: row;
 }
-.imageholder{
+.imageholder {
   display: flex;
   justify-content: center;
 }
-.iconholder{
+.iconholder {
   margin-top: 30px;
   display: flex;
   flex-direction: column;
@@ -109,33 +109,34 @@
   align-items: center;
   height: 80%;
 }
-.icons{
-  color: #BAD1FF;
+.icons {
+  color: #bad1ff;
   font-size: 46px;
 }
 
-.logoutbtn{
+.logoutbtn {
   background: transparent;
   border: none;
 }
 
-.groupholder{
+.groupholder {
   padding: 10px;
   background: #fff;
-  height: 370px;
+  height: 310px;
+  /* height: 370px; */
   border-radius: 20px;
   margin-top: 10px;
-  -webkit-box-shadow: 0px 1px 12px 4px rgba(0,0,0,0.28);
-  -moz-box-shadow: 0px 1px 12px 4px rgba(0,0,0,0.28);
-  box-shadow: 0px 1px 12px 4px rgba(0,0,0,0.28);
+  -webkit-box-shadow: 0px 1px 12px 4px rgba(0, 0, 0, 0.28);
+  -moz-box-shadow: 0px 1px 12px 4px rgba(0, 0, 0, 0.28);
+  box-shadow: 0px 1px 12px 4px rgba(0, 0, 0, 0.28);
   overflow-y: scroll;
   margin-bottom: 10px;
 }
-.titleholder{
+.titleholder {
   display: flex;
   justify-content: space-between;
 }
-.titleholder button{
+.titleholder button {
   padding: 10px;
   background: #5f35fa;
   border: 0;
@@ -143,7 +144,7 @@
   font-weight: 500;
   border-radius: 10px;
 }
-.boxbtn{
+.boxbtn {
   padding: 10px;
   background: #5f35fa;
   border: 0;
@@ -153,7 +154,7 @@
   margin: 0 10px;
 }
 
-.box{
+.box {
   display: flex;
   column-gap: 20px;
   align-items: center;
@@ -161,42 +162,145 @@
   border-bottom: 1px solid #767676;
   margin-bottom: 10px;
 }
-.box:last-child{
+.box:last-child {
   border-bottom: none;
 }
 
-.boxImgholder{
+.boxImgholder {
   width: 70px;
   height: 70px;
   border-radius: 50%;
 }
-.boxImgholder img{
-  width: 100%;
+.boxImgholder img {
+  /* width: 100%; */
+  height: 100%;
 }
 
-.img-preview{
+.img-preview {
   height: 70px !important;
   width: 70px !important;
   overflow: hidden;
   border-radius: 50%;
 }
-.proSize{
+.proSize {
   width: 70px !important;
   width: 70px !important;
   border-radius: 50%;
 }
-.profileName{
+.profileName {
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 10px;
 }
-.CrGrpInput{
+.CrGrpInput {
   width: 100%;
   margin-top: 10px !important;
 }
-.CrGrpInputBox{
+.CrGrpInputBox {
   display: flex;
   position: relative;
   flex-direction: column;
+}
+
+.messageBox {
+  height: 671px;
+  width: 100%;
+  /* background-color: #03014c; */
+  margin-top: 12px;
+  margin-bottom: 47px;
+  border-radius: 10px;
+  -webkit-box-shadow: 0px 1px 12px 4px rgba(0, 0, 0, 0.28);
+  -moz-box-shadow: 0px 1px 12px 4px rgba(0, 0, 0, 0.28);
+  box-shadow: 0px 1px 12px 4px rgba(0, 0, 0, 0.28);
+  position: relative;
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center; */
+}
+.whoSendMessage {
+  display: flex;
+  justify-content: space-between;
+  justify-items: center;
+  display: flex;
+  column-gap: 20px;
+  color: #03014c;
+}
+.chatHeading {
+  padding: 20px 20px 0 20px;
+  display: flex;
+  /* position: absolute; */
+  width: 92%;
+  justify-content: space-between;
+  /* align-items: center; */
+}
+
+.settingOption {
+  padding: 10px;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+}
+.settingOption:hover {
+  background-color: rgb(205, 202, 202);
+  transition-duration: 1s;
+}
+.chatBody {
+  /* position: relative; */
+  width: 719px;
+  height: 503px;
+  background-color: rgb(191, 191, 191);
+  border-radius: 20px;
+  margin-left: 20px;
+  overflow-y: scroll;
+}
+.SenderMessage{
+  display: flex;
+  justify-content: center;
+  margin: 15px 20px;
+  width: 300px;
+  flex-direction: column;
+}
+
+.MyMessage{
+  display: flex;
+  justify-content: center;
+  margin: 15px 15px 20px 376px;
+  flex-direction: column;
+  width: 300px
+  
+}
+.MyMesagetitle{
+  background-color: #486dff;
+  width: 300px;
+  padding: 5px 15px;
+  border-radius: 10px 10px 0 10px;
+}
+.SenderMesagetitle{
+  background-color: #ffffff;
+  width: 300px;
+  padding: 5px 15px;
+  border-radius: 10px 10px 10px 0;
+}
+.inputSend {
+  width: 594px;
+  padding: 10px 0;
+  font-size: 20px;
+  border: transparent;
+  background-color: #cccaca;
+  /* border-radius: 10%;
+  box-sizing: border-box; */
+}
+.chatInput {
+  display: flex;
+  justify-content: center;
+  margin-top: 18px;
+}
+.chatInput input {
+  overflow: scroll;
+  padding: 10px;
 }

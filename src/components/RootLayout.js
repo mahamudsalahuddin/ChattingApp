@@ -129,10 +129,10 @@ const RootLayout = () => {
               </div>
               <h5 className="profileName">{data.userdata.userInfo.displayName}</h5>
               <div className="iconholder">
-                <AiFillHome className="icons" />
-                <AiFillMessage className="icons" />
-                <IoIosNotifications className="icons" />
-                <AiFillSetting className="icons" />
+                <AiFillHome onClick={()=>navigate("/pechal")} className="icons" />
+                <AiFillMessage onClick={()=>navigate("message/")} className="icons" />
+                <IoIosNotifications onClick={()=>navigate("notification/")} className="icons" />
+                <AiFillSetting onClick={()=>navigate("setting/")} className="icons" />
                 <button className="logoutbtn" onClick={handleLogout}>
                   <AiOutlineLogout className="icons" />
                 </button>

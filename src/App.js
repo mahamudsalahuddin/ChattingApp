@@ -10,6 +10,8 @@ import Login from "./pages/Login";
 import Home from "./pages/Home"
 import RootLayout from "./components/RootLayout";
 import Message from "./pages/Message";
+import SettingPage from "./pages/SettingPage";
+import NotificationPage from "./pages/NotificationPage";
 
 function App() {
   let router = createBrowserRouter(
@@ -20,6 +22,8 @@ function App() {
           <Route path="/pechal" element={<RootLayout/>}>
               <Route index element={<Home/>}></Route>
               <Route path="message" element={<Message/>}></Route>
+              <Route path="notification" element={<NotificationPage/>}></Route>
+              <Route path="setting" element={<SettingPage/>}></Route>
           </Route>
       </Route>
     )
